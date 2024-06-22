@@ -175,8 +175,7 @@ const printLabel = () => {
 
   const TotalValue = counterCheckbox1 + counterCheckbox2;
   LabelElement.textContent = `${label1} ${label2} ${label3} ${label4}`;
-  //LabelElement.textContent = FirstLabelElement;
-  console.log(`contador = ${TotalValue}`);
+  //console.log(TotalValue);
 };
 
 ButtonLabelElement.addEventListener('click', printLabel);
