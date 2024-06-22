@@ -1,0 +1,37 @@
+.container{
+    display: flex;
+    gap: 30px;
+    padding-bottom: 20px;
+}
+
+.toggle-label{
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding-inline: 2px;
+    width: 40px;
+    height: 20px;
+    border-radius: 1rem;
+    background-color: orange;
+}
+
+.toggle-checkbox{
+    display: none;
+}
+
+.toggle-label::after{
+    content: '';
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    background-color: #fff;
+    border-radius: 50%;
+    transition: translate 0.3s;
+}
+
+.toggle-checkbox:checked + .toggle-label{
+    background-color: blue;
+}
+.toggle-checkbox:checked + .toggle-label::after{
+    translate: 20px;
+}
