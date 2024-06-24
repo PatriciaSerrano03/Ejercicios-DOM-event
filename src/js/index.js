@@ -5,8 +5,8 @@ import '../scss/styles.scss';
 
 const ButtonElement = document.getElementById('button');
 
-const printClick = event => {
-  console.log(event);
+const printClick = () => {
+  console.log(ButtonElement.textContent);
 };
 
 ButtonElement.addEventListener('click', printClick);
@@ -16,13 +16,13 @@ ButtonElement.addEventListener('click', printClick);
 const TitleElement = document.getElementById('title');
 const TitleContent = TitleElement.textContent;
 
-const changeText = event => {
+const changeText = () => {
   TitleElement.textContent = 'Quita de encima!!!';
 };
 
 TitleElement.addEventListener('mouseover', changeText);
 
-const printText = event => {
+const printText = () => {
   TitleElement.textContent = TitleContent;
 };
 TitleElement.addEventListener('mouseout', printText);
@@ -31,6 +31,7 @@ TitleElement.addEventListener('mouseout', printText);
 
 const WindowSize = () => {
   console.log(`${window.visualViewport.width} x ${window.visualViewport.height}`);
+  //console.log(`El ancho de la ventana es de ${event.target.innerWidth} y el alto es de ${event.target.innerHeight}`)
 };
 
 window.addEventListener('resize', WindowSize);
@@ -40,10 +41,16 @@ window.addEventListener('resize', WindowSize);
 const TextElement = document.getElementById('text');
 
 const getLabel = event => {
-  TextElement.textContent = event.key;
+  TextElement.textContent = `Has pulsado la tecla ${event.key}`;
+};
+
+const WaitingKeyInfo = event => {
+  TextElement.textContent = 'Esperando entrada de teclado';
 };
 
 window.addEventListener('keydown', getLabel);
+
+window.addEventListener('keyup', WaitingKeyInfo);
 
 //Crea un array con 5 palabras. Añade un h2 a tu HTML y ponle un id. Añade dos botones con el texto previus y next respectívamente. Haz que los botones cambien el texto del h2 con las palabras del array, cuando llegues a la última volverás a la primera si pulsas next y cuando estés en la primera podrás volver a la última dandole a previous.
 const words = ['hola', 'adios', 'mano', 'libro', 'botella'];
@@ -75,13 +82,44 @@ const ChangePreviousWord = () => {
 };
 ButtonPreviousElement.addEventListener('click', ChangePreviousWord);
 
+/* 
+let counter = 0;
+
+const ChangeNextWord = () => {
+  if (counter >= words.length - 1) {
+    counter = 0;
+  }else{
+    counter++;
+  }
+  H2Element.textContent = words[counter];
+};
+
+ButtonNextElement.addEventListener('click', ChangeNextWord);
+
+
+const ChangePreviousWord = () => {
+  if (counterback <= 0) {
+    counter = words.length -1
+  }else{
+    counter--;
+  }
+  H2Element.textContent = words[counter];
+}; 
+
+ButtonPreviousElement.addEventListener('click', ChangePreviousWord);
+
+*/
+
 //Repite el mismo ejercicio pero esta vez desactiva el botón previous si estás en el primer elemento y el botón next si estás en el último
 
 const H2Element2 = document.getElementById('subtitle2');
 const ButtonNextElement2 = document.getElementById('next2');
 const ButtonPreviousElement2 = document.getElementById('previous2');
-let counter2 = 0;
-let counterback2 = 4;
+
+/* let counter2 = 0;
+ let counterback2 = 4;
+
+//Botón Next no funciona
 
 const ChangeNextWord2 = () => {
   H2Element2.textContent = words[counter2];
@@ -94,15 +132,49 @@ const ChangeNextWord2 = () => {
 
 ButtonNextElement2.addEventListener('click', ChangeNextWord2);
 
+//Botón Previous no funciona
+
 const ChangePreviousWord2 = () => {
-  console.log(counterback2, 'hola');
   H2Element2.textContent = words[counterback2];
   counterback2 = counterback2 - 1;
   if (counterback2 < 1) {
     counterback2 = 0;
   }
 };
-ButtonPreviousElement2.addEventListener('click', ChangePreviousWord2);
+ButtonPreviousElement2.addEventListener('click', ChangePreviousWord2); */
+
+//Botones desabilitados
+
+let SliderCounter = 0;
+
+const ChangeText = () => {
+  H2Element2.textContent = words[SliderCounter];
+};
+
+const PreviousWord = () => {
+  ButtonNextElement2.disabled = false;
+  SliderCounter--;
+
+  if (SliderCounter === 0) {
+    ButtonPreviousElement2.disabled = true;
+  }
+  ChangeText();
+};
+
+const NextWord = () => {
+  ButtonPreviousElement2.disabled = false;
+  SliderCounter++;
+
+  if (SliderCounter === words.length - 1) {
+    ButtonNextElement2.disabled = true;
+  }
+  ChangeText();
+};
+
+H2Element2.textContent = words[0];
+
+ButtonPreviousElement2.addEventListener('click', PreviousWord);
+ButtonNextElement2.addEventListener('click', NextWord);
 
 //Crea un input range con un label, al mover el input range deberá escribir en el label el valor del input range.
 
@@ -116,7 +188,7 @@ RangeElement.addEventListener(`change`, GetValue);
 
 //Crea una lista de 4 checkbox con el texto que quieras y un botón, al pulsar el botón deberá decirte cuantos checkbox están marcados y cual es su texto.
 
-const FirstCheckboxElement = document.getElementById('toggle');
+/* const FirstCheckboxElement = document.getElementById('toggle');
 const FirstLabelElement = document.getElementById('label');
 
 const SecondCheckboxElement = document.getElementById('toggle2');
@@ -178,4 +250,19 @@ const printLabel = () => {
   //console.log(TotalValue);
 };
 
-ButtonLabelElement.addEventListener('click', printLabel);
+ButtonLabelElement.addEventListener('click', printLabel); */
+
+//Forma más sencilla
+
+const ButtonLabelElement = document.getElementById('button_label');
+const LabelElement = document.getElementById('last_label');
+
+const getCheckboxInfo = () => {
+  const InputsElement = document.querySelectorAll('input:checked'); // Estas guardando los inputs que estan checked
+  let resultText = `Están marcados ${InputsElement.length} inputs`;
+  InputsElement.forEach(input => (resultText += ' ' + input.value + ', ')); //Sumas los valores
+
+  LabelElement.textContent = resultText;
+};
+
+ButtonLabelElement.addEventListener('click', getCheckboxInfo);
